@@ -7,7 +7,22 @@ app = dash.Dash()
 
 app.layout = html.Div([
 	html.H1('Hello'),
-	html.Div('A para')
+	html.Div('A para'),
+
+	dcc.Graph(
+		id = 'samplechart',
+		figure = {
+		'data' : [
+
+		{'x':[1,3,5], 'y':[4,5,6], 'type':'bar', 'name': 'First'},
+		{'x':[1,3,5], 'y':[4,5,6], 'type':'bar', 'name': 'Second'}
+
+		],
+
+		'layout': {'title':'Simple Bar Chart'}
+		})
+
+
 	])
 
 if __name__ == '__main__':
