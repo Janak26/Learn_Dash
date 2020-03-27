@@ -6,8 +6,14 @@ app = dash.Dash()
 
 
 app.layout = html.Div([
-	html.H1('Hello'),
-	html.Div('A para'),
+	html.H1(
+		children = 'Hello',
+		style = {'textAlign': 'center'}
+		),
+	html.Div(
+		children = 'A para',
+		style = {'textAlign': 'center'}
+		),
 
 	dcc.Graph(
 		id = 'samplechart',
