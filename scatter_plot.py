@@ -3,7 +3,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import numpy as np
 import plotly.graph_objs as go
-
+import pandas as pd
 
 app = dash.Dash()
 
@@ -11,6 +11,8 @@ np.random.seed(50)
 x_rand = np.random.randint(1, 61, 60)
 y_rand = np.random.randint(1, 61, 60)
 
+
+data = pd.read_csv('D:/ML_Projects/dash_learn/data/kc_house_data.csv')
 
 app.layout = html.Div([
 	
@@ -21,14 +23,17 @@ app.layout = html.Div([
 		'data' : [
 
 		go.Scatter(
-			x = x_rand,
-			y = y_rand,
+			x = data['sqft_lot'],
+			y = data['price'],
 			mode = 'markers')
 
 		],
 
 		'layout' : go.Layout(
-			title = 'Scatterplot Sample')
+			title = 'Scatterplot Sample',
+			xaxis = {'title':'Lot size'},
+			yaxis = {'title':'Price'},
+			hovermode = 'closest')
 		})
 
 
