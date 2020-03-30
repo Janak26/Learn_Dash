@@ -4,6 +4,8 @@ import dash_html_components as html
 import numpy as np
 import plotly.graph_objs as go
 import pandas as pd
+from datetime import datetime
+
 
 app = dash.Dash()
 
@@ -60,7 +62,45 @@ app.layout = html.Div([
 		style = {'width':'100%', 'height':'50%'}),
 
 
+	html.Br(),
+	html.Button('Submit', id='One'),
 
+
+
+	html.Br(),
+	dcc.Checklist(
+		options = [
+
+		{'label':'Mumbai', 'value':'MUM'},
+		{'label':'New Delhi', 'value':'DEL'},
+		{'label':'Bengaluru', 'value':'BEN'}
+		],
+		value = ['MUM', 'BEN']
+		),
+
+	html.Br(),
+	dcc.RadioItems(
+		options = [
+
+		{'label':'Mumbai', 'value':'MUM'},
+		{'label':'New Delhi', 'value':'DEL'},
+		{'label':'Bengaluru', 'value':'BEN'}
+		],
+		value = 'MUM'
+		),
+
+	html.Br(),
+	dcc.DatePickerSingle(
+		id = 'dt-pick-single',
+		date = datetime.now()),
+
+
+	html.Br(),
+	html.Br(),
+	dcc.DatePickerRange(
+		id = 'dt_pick-range',
+		start_date = datetime(2020,1,18),
+		end_date = datetime(2020,6,8)),
 
 	])
 
