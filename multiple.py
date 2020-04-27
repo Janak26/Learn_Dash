@@ -107,3 +107,85 @@ app.layout = html.Div([
 
 if __name__ == '__main__':
 	app.run_server(port = 4050)
+
+
+
+
+
+
+
+
+
+iTemperature = "Indoor Temperature"
+df = pd.read_csv("iTemps.csv")
+
+colors = {
+    "graphBackground": "#212529",
+    "background": "#000000",
+    "text": "#ffffff"
+}
+
+app.layout = html.Div(style={"backgroundColor": colors["background"]}, children=[
+    html.H1(
+        children="Home Temperature",
+        style={
+            "textAlign": "center",
+            "color": colors["text"]
+        }
+    ),
+
+    html.Div(children="Outdoor and indoor temperatures", style={
+        "textAlign": "center",
+        "color": colors["text"]
+    }),
+
+    html.Div(children="", style={
+        "color": colors["background"]
+    }),
+
+    dcc.DatePickerRange(
+        id="date-picker-range",
+        start_date=dt.datetime(2018, 5, 22),
+        end_date=dt.datetime(2018, 8, 13),
+        min_date_allowed=dt.datetime(2018, 5, 22),
+        max_date_allowed=dt.datetime(2018, 8, 13),
+        end_date_placeholder_text="Select a date"
+    ),
+
+    dcc.Graph(id="in-temp-graph")
+
+])
+
+@app.callback(
+    Output("in-temp-graph", "figure"),
+    [Input("date-picker-range", "start_date"),
+    Input("date-picker-range", "end_date")]
+)
+def update_graph(start_date, end_date):
+
+    start_date = pd.to_datetime(start_date)
+    end_date = pd.to_datetime(end_date)
+
+    filtered_df = df[df.date.between(
+        dt.datetime.strftime(start_date, "%Y-%m-%d"),
+        dt.datetime.strftime(end_date, "%Y-%m-%d")
+    )]
+
+    trace1 = go.Scatter(
+        x = filtered_df.date,
+        y = filtered_df.temperature,
+        mode = "lines",
+        name = iTemperature
+    )
+
+    return {
+        "data": [trace1],
+        "layout": go.Layout(
+            title = iTemperature,
+            plot_bgcolor = colors["graphBackground"],
+            paper_bgcolor = colors["graphBackground"]
+        )
+    }
+
+if __name__ == "__main__":
+    app.run_server(debug=True)
